@@ -77,6 +77,16 @@ function battle(player, enemy) {
     enemy.health -= player.attackPower;
     player.attackPower += 10;
     $("#battleText").html("You attacked " + enemy.name + " for " + player.attackPower + " damage. <br>" + enemy.name + " attacked you for " + enemy.counterAttack + " damage.")
+    //animates the card to turn red in battle
+    $("#" + player.name).addClass("battleAnimate")
+    setTimeout(function () {
+        $("#" + player.name).removeClass("battleAnimate");
+    }, 500);
+    $("#" + enemy.name).addClass("battleAnimate")
+    setTimeout(function () {
+        $("#" + enemy.name).removeClass("battleAnimate");
+    }, 500);
+
     updateStatus(player);
     updateStatus(enemy);
     statusCheck();
@@ -91,7 +101,7 @@ function statusCheck() {
         $("#battleText").html("<h3>You Both Lost!</h3>")
         $("#attack").html('<button class="btn" onclick="window.location.reload()">Play Again</button>')
     }
-    
+
 
     else if (enemyChoice.health <= 0 && charArray.length === 0) {
         $("#" + enemyChoice.name).detach();
@@ -99,18 +109,18 @@ function statusCheck() {
         $("#battleText").html("<h3>You Win!</h3>")
         $("#attack").html('<button class="btn" onclick="window.location.reload()">Play Again</button>')
     }
-    
+
     else if (playerChoice.health <= 0) {
         console.log("Game Over")
         $("#" + playerChoice.name).detach();
-        $("#PlayerAreaText").html("<h3>You Lost</h3>")
+        $("#battleText").html("<h3>You Lost</h3>")
         $("#attack").html('<button class="btn" onclick="window.location.reload()">Play Again</button>')
 
     }
-    
+
     else if (enemyChoice.health <= 0) {
         $("#battleText").html("You defeated " + enemyChoice.name + ". pick another enemy.")
-        $("#" + enemyChoice.name).detach(); 
+        $("#" + enemyChoice.name).detach();
         enemyChoice = ""
         enemyPicked = false;
     }
@@ -131,7 +141,7 @@ $("#attack").on("click", function () {
     }
 
     else {
-    battle(playerChoice, enemyChoice);
-    console.log(playerChoice, enemyChoice);
+        battle(playerChoice, enemyChoice);
+        console.log(playerChoice, enemyChoice);
     }
 })
